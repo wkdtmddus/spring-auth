@@ -63,21 +63,6 @@ public class AuthController {
         return "getSession : " + value;
     }
 
-    public static void addCookie(String cookieValue, HttpServletResponse res) {
-        try {
-            cookieValue = URLEncoder.encode(cookieValue, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
-
-            Cookie cookie = new Cookie(AUTHORIZATION_HEADER, cookieValue); // Name-Value
-            cookie.setPath("/");
-            cookie.setMaxAge(30 * 60);
-
-            // Response 객체에 Cookie 추가
-            res.addCookie(cookie);
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
     @GetMapping("/create-jwt")
     public String createJwt(HttpServletResponse res) {
         // Jwt 생성
@@ -109,5 +94,20 @@ public class AuthController {
         System.out.println("authority = " + authority);
 
         return "getJwt : " + username + ", " + authority;
+    }
+
+    public static void addCookie(String cookieValue, HttpServletResponse res) {
+        try {
+            cookieValue = URLEncoder.encode(cookieValue, "utf-8").replaceAll("\\+", "%20"); // Cookie Value 에는 공백이 불가능해서 encoding 진행
+
+            Cookie cookie = new Cookie(AUTHORIZATION_HEADER, cookieValue); // Name-Value
+            cookie.setPath("/");
+            cookie.setMaxAge(30 * 60);
+
+            // Response 객체에 Cookie 추가
+            res.addCookie(cookie);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
